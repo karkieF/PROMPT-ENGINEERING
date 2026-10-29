@@ -58,6 +58,7 @@ Step 7: Finalize and Export
 
 
 # Output
+
 # Comparing the Behaviour of Different Generative AI Models Using Identical Prompts
 
 **Tools compared:** ChatGPT and Claude
@@ -232,3 +233,4 @@ A fair final judgement requires scoring both sets of original responses using th
 6. Ho et al., “Denoising Diffusion Probabilistic Models,” 2020.
 
 # Result
+Both ChatGPT and Claude explained all five Generative AI topics clearly and correctly, with tables and examples. They differed mainly in style and detail, not in overall quality. Facts like numbers and paper names should still be verified for hallucination. Neither was best on every criterion, so the choice depends on the task.
