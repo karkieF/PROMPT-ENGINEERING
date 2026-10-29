@@ -63,6 +63,8 @@ Step 7: Finalize and Export
 
 # Comparing the Behaviour of Different Generative AI Models Using Identical Prompts
 
+**Name:** Karkie F
+**Register No.:** 212225040172
 **Tools compared:** ChatGPT and Claude
 
 ---
@@ -77,23 +79,37 @@ The five prompts cover foundational concepts, transformer architectures, applica
 
 **Prompt 1 – Foundational Concepts**
 
-Explain the foundational concepts of Generative AI. Cover what it is, how it differs from discriminative AI, the main model families (GANs, VAEs, diffusion models, autoregressive models), training data, and key terms such as tokens, embeddings and prompts. Use simple language with one real-world example per concept and a short summary table.
+> Explain the foundational concepts of Generative AI. Cover what it is, how it differs from discriminative AI, the main model families (GANs, VAEs, diffusion models, autoregressive models), training data, and key terms such as tokens, embeddings and prompts. Use simple language with one real-world example per concept and a short summary table.
 
 **Prompt 2 – Architectures**
 
-Explain Generative AI architectures with a focus on transformers. Describe self-attention, multi-head attention, positional encoding, encoder-only vs decoder-only vs encoder-decoder designs, and briefly compare transformers with RNNs, GANs, VAEs and diffusion models. Include a simple block-level diagram description.
+> Explain Generative AI architectures with a focus on transformers. Describe self-attention, multi-head attention, positional encoding, encoder-only vs decoder-only vs encoder-decoder designs, and briefly compare transformers with RNNs, GANs, VAEs and diffusion models. Include a simple block-level diagram description.
 
 **Prompt 3 – Architecture and Applications**
 
-Explain how each major Generative AI architecture (transformer, GAN, VAE, diffusion) maps to real applications in text, image, audio, video, code and healthcare. Present the answer as a table of architecture, typical applications, strengths and limitations.
+> Explain how each major Generative AI architecture (transformer, GAN, VAE, diffusion) maps to real applications in text, image, audio, video, code and healthcare. Present the answer as a table of architecture, typical applications, strengths and limitations.
 
 **Prompt 4 – Impact of Scaling**
 
-Explain the impact of scaling in Large Language Models. Cover scaling laws (parameters, data, compute), emergent abilities, the Chinchilla compute-optimal idea, cost and energy implications, diminishing returns, and the risks that grow with scale.
+> Explain the impact of scaling in Large Language Models. Cover scaling laws (parameters, data, compute), emergent abilities, the Chinchilla compute-optimal idea, cost and energy implications, diminishing returns, and the risks that grow with scale.
 
 **Prompt 5 – Building an LLM**
 
-Explain what a Large Language Model is and how it is built, step by step: data collection and cleaning, tokenization, model architecture, pre-training, supervised fine-tuning, RLHF/alignment, evaluation, and deployment. Mention tools and frameworks an engineer would use.
+> Explain what a Large Language Model is and how it is built, step by step: data collection and cleaning, tokenization, model architecture, pre-training, supervised fine-tuning, RLHF/alignment, evaluation, and deployment. Mention tools and frameworks an engineer would use.
+
+### 1.2 Why These Prompts Were Designed This Way
+
+Each prompt follows the same pattern, which keeps the comparison fair:
+
+| Prompt element | Purpose |
+|----------------|---------|
+| Clear topic | Prevents the tool from choosing a different scope |
+| Listed sub-points | Makes completeness measurable (a missing sub-point is easy to spot) |
+| Audience and tone ("simple language") | Tests whether the tool adapts its explanation level |
+| Required format (table, diagram description) | Tests instruction-following |
+| Engineering request (tools and frameworks) | Tests practical usefulness, not only theory |
+
+---
 
 ## 2. Experimental Procedure
 
@@ -103,6 +119,18 @@ Explain what a Large Language Model is and how it is built, step by step: data c
 4. Verify technical claims, dates, figures and paper names against reliable sources before recording factual mistakes.
 
 **Note:** The Claude responses supplied for this report were generated in one chat session, and timing was not measured. The actual five ChatGPT response transcripts were not supplied with the material used to prepare this report. Therefore, ChatGPT ratings remain indicative, and speed is not ranked.
+
+### 2.1 Controls to Keep the Test Fair
+
+| Variable | How to control it |
+|----------|-------------------|
+| Chat context | Start a new chat for every prompt where possible |
+| Prompt wording | Copy and paste; never retype |
+| Model mode | Use the default mode in both tools, or the same type of mode (fast vs reasoning) |
+| Network and time of day | Run both tools back to back on the same connection |
+| Randomness | Repeat a prompt twice and note any large differences in the answers |
+
+---
 
 ## 3. Reference Concepts Used for Checking
 
@@ -115,6 +143,71 @@ Applications vary by architecture. Transformers are used in language and code sy
 Scaling laws describe how model performance changes with parameters, training data and compute. The Chinchilla study highlighted the importance of balancing model size with the amount of training data. Scaling can improve capabilities but also increases compute, energy, privacy, misuse and misinformation risks.
 
 A typical LLM development pipeline includes data collection and cleaning, tokenization, architecture design, pre-training, supervised fine-tuning, alignment, evaluation and deployment. Example tools include Python, PyTorch, JAX, Hugging Face Transformers, PEFT/LoRA, DeepSpeed, Megatron-LM, vLLM and Docker.
+
+### 3.1 Detailed Checking Tables
+
+**Model families (Prompt 1 and 2)**
+
+| Family | Core idea | Typical use | Main weakness |
+|--------|-----------|-------------|---------------|
+| Autoregressive | Predicts the next token step by step | Text and code generation | Slow token-by-token generation |
+| GAN | Generator and discriminator compete | Realistic images | Unstable training, mode collapse |
+| VAE | Encodes to a latent space and decodes | Anomaly detection, latent exploration | Outputs can be blurry |
+| Diffusion | Removes noise step by step | Text-to-image, audio, video | Slow sampling, high compute |
+
+**Transformer designs (Prompt 2)**
+
+| Design | What it does | Examples |
+|--------|--------------|----------|
+| Encoder-only | Reads the full input for understanding | BERT |
+| Decoder-only | Predicts the next token using earlier tokens only | GPT-style models, LLaMA |
+| Encoder-decoder | Encodes input, then decodes an output | T5, translation models |
+
+**Block-level view of one transformer layer**
+
+```
+Tokens -> Embeddings + Positional encoding
+   -> [ Multi-head attention -> Add & Norm -> Feed-forward -> Add & Norm ] x N
+   -> Linear layer -> Softmax -> Next-token probabilities
+```
+
+**Scaling summary (Prompt 4)**
+
+| Aspect | Expected content |
+|--------|------------------|
+| Scaling laws | Loss falls predictably with more parameters, data and compute (Kaplan et al., 2020) |
+| Chinchilla | Model size and training tokens should grow together; smaller well-trained models can beat larger under-trained ones (Hoffmann et al., 2022) |
+| Emergent abilities | New skills appear at scale, though researchers debate how sharp the jumps are |
+| Cost and energy | Large accelerator clusters, high electricity and money cost, expensive serving |
+| Diminishing returns | Each gain needs much more compute; high-quality data is finite |
+| Risks | Hallucination, misuse, privacy leakage, bias, concentration of power |
+
+**LLM pipeline (Prompt 5)**
+
+| Stage | Key activity | Example tools |
+|-------|--------------|---------------|
+| Data collection and cleaning | Gather, filter, deduplicate | Python, Spark |
+| Tokenization | Convert text to tokens | SentencePiece, tiktoken |
+| Architecture | Choose layers, heads, context length | PyTorch, JAX |
+| Pre-training | Next-token prediction at scale | DeepSpeed, Megatron-LM |
+| Supervised fine-tuning | Instruction-response training | Hugging Face Transformers, PEFT/LoRA |
+| Alignment | Preference-based tuning | TRL |
+| Evaluation | Benchmarks, red-teaming | lm-evaluation-harness |
+| Deployment | Optimise and serve | vLLM, ONNX Runtime, Docker |
+
+### 3.2 Per-Prompt Evaluation Checklist
+
+Use this checklist on each tool's real answer. Tick an item only if it actually appears in the response.
+
+| Prompt | Must-have items to check |
+|--------|--------------------------|
+| 1 | Definition; generative vs discriminative; four model families; training data; tokens, embeddings, prompts; one example per concept; summary table |
+| 2 | Self-attention; multi-head attention; positional encoding; three designs; comparison with RNN, GAN, VAE, diffusion; block-level diagram description |
+| 3 | Table with architecture, applications, strengths, limitations; coverage of text, image, audio, video, code, healthcare |
+| 4 | Scaling laws; emergent abilities; Chinchilla; cost and energy; diminishing returns; risks |
+| 5 | All eight pipeline stages in order; named tools and frameworks; distinction between pre-training and fine-tuning |
+
+---
 
 ## 4. Scoring Rubric
 
@@ -130,7 +223,7 @@ A typical LLM development pipeline includes data collection and cleaning, tokeni
 These scores are provisional. Claude's scores are based on the five responses supplied; ChatGPT's scores are carried forward as indicative values from the original draft because its five actual outputs were not provided. For a fair final result, assess both sets of original responses using the same rubric.
 
 | Criterion | ChatGPT (indicative) | Claude (review of supplied answers) |
-|---|---:|---:|
+|-----------|:--------------------:|:-----------------------------------:|
 | Accuracy | 4.5 | 4.5 |
 | Creativity | 4.5 | 4.5 |
 | Hallucination (higher = fewer errors) | 4.0 | 4.0 |
@@ -143,14 +236,16 @@ The averages exclude speed because no stopwatch readings are available. Equal sc
 ### 4.2 Output Style Observation
 
 | Prompt | Claude answer length | Used table? | Gave example? | Mistakes found |
-|---|---|---|---|---|
+|--------|----------------------|-------------|---------------|----------------|
 | 1 – Foundations | Medium | Yes | Yes | No obvious major error identified in this review; verify details |
 | 2 – Architectures | Medium | Yes | Yes | No obvious major error identified in this review; verify details |
 | 3 – Applications | Short–medium | Yes | Yes, through applications | No obvious major error identified in this review; verify coverage |
 | 4 – Scaling | Medium | No | Yes, research examples | No obvious major error identified in this review; verify exact claims |
 | 5 – Building an LLM | Medium | Yes | Yes, tools and workflow | No obvious major error identified in this review; verify tool suitability |
 
-The table-use and example observations above are based on the Claude responses supplied. “No obvious major error identified” is not a guarantee of complete factual accuracy. Fill the ChatGPT observations after checking its actual five responses.
+The table-use and example observations above are based on the Claude responses supplied. "No obvious major error identified" is not a guarantee of complete factual accuracy. Fill the ChatGPT observations after checking its actual five responses.
+
+---
 
 ## 5. Criterion-wise Analysis
 
@@ -162,7 +257,7 @@ ChatGPT should be evaluated using the same checklist. Its actual responses were 
 
 ### 5.2 Creativity and Presentation
 
-Claude used accessible explanations and examples, such as the relationship between “it” and “animal” in a sentence to explain self-attention, and the comparison of a spam filter with an email-writing assistant. It used tables effectively for model families, transformer designs, applications and the LLM pipeline. This made the answers easy to scan.
+Claude used accessible explanations and examples, such as the relationship between "it" and "animal" in a sentence to explain self-attention, and the comparison of a spam filter with an email-writing assistant. It used tables effectively for model families, transformer designs, applications and the LLM pipeline. This made the answers easy to scan.
 
 ChatGPT's creativity should be compared by checking whether it uses similarly relevant examples and follows each requested format.
 
@@ -171,6 +266,16 @@ ChatGPT's creativity should be compared by checking whether it uses similarly re
 The supplied Claude answers do not show an obvious fabricated paper or clearly suspicious numerical claim, but that does not establish that every claim is correct. Claims about scaling laws, Chinchilla, model training, healthcare uses and named tools should be verified.
 
 No specific ChatGPT hallucination can be identified without its actual answer transcripts. For both tools, the score should reflect verified errors, not confidence or writing style alone.
+
+**Common hallucination types to look for**
+
+| Type | Example to check |
+|------|------------------|
+| Invented reference | A paper title or author that does not exist |
+| Wrong number | Incorrect parameter count, year or cost |
+| Wrong attribution | Crediting a technique to the wrong paper or company |
+| Overconfident claim | Stating a debated idea as settled fact |
+| Outdated information | Describing old tools as the current standard |
 
 ### 5.4 Reasoning
 
@@ -185,12 +290,14 @@ Claude's timing was not measured, and ChatGPT timing is also unavailable. Theref
 ### 5.6 Behavioural Differences
 
 | Aspect | Claude – observed from supplied answers | ChatGPT – what to verify |
-|---|---|---|
+|--------|------------------------------------------|---------------------------|
 | Answer length | Mostly medium-length, structured responses | Record whether responses are short, medium or detailed |
 | Formatting | Uses tables for most comparison-heavy prompts; Prompt 4 uses headings and bullets | Check whether requested tables and diagram description are present |
 | Following instructions | Covers most requested sub-points; Prompt 3 does not explicitly give separate examples for every listed domain under each architecture | Check completeness against each prompt's exact requirements |
 | Uncertainty | Notes debate around emergent abilities and warns that healthcare outputs need professional review | Check whether uncertain claims are appropriately qualified |
 | Follow-up behaviour | Focuses on answering the prompts rather than asking follow-up questions | Record whether it offers relevant next steps or asks clarifying questions |
+
+---
 
 ## 6. Engineering Usefulness
 
@@ -199,6 +306,51 @@ Claude's fifth response provides a practical, ordered LLM development pipeline a
 Its responses also identify practical limitations such as compute cost, slow diffusion sampling, GAN training instability, hallucination, privacy risks and the need for healthcare review. This makes the content useful as a learning overview, although it is not a complete implementation guide.
 
 For ChatGPT, engineering usefulness should be judged by whether its answers provide a clear pipeline, appropriate tool choices, meaningful trade-offs and actionable follow-up guidance. An additional engineering test would be to ask both tools for a minimal PyTorch self-attention implementation and check whether tensor shapes and causal masking are explained.
+
+### 6.1 Engineering Test: Reference Self-Attention Implementation
+
+To test practical usefulness, give both tools this follow-up prompt:
+
+> Write a minimal PyTorch implementation of a single self-attention head with comments, and explain each tensor shape.
+
+A correct answer should look similar to the reference below, which can be used to check the tools' code:
+
+```python
+import math
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+class SelfAttentionHead(nn.Module):
+    def __init__(self, d_model, d_head, causal=True):
+        super().__init__()
+        self.q = nn.Linear(d_model, d_head, bias=False)
+        self.k = nn.Linear(d_model, d_head, bias=False)
+        self.v = nn.Linear(d_model, d_head, bias=False)
+        self.causal = causal
+
+    def forward(self, x):                      # x: (B, T, d_model)
+        Q, K, V = self.q(x), self.k(x), self.v(x)          # each (B, T, d_head)
+        scores = Q @ K.transpose(-2, -1) / math.sqrt(Q.size(-1))  # (B, T, T)
+        if self.causal:                        # decoder-only: hide future tokens
+            T = x.size(1)
+            mask = torch.tril(torch.ones(T, T, device=x.device)).bool()
+            scores = scores.masked_fill(~mask, float("-inf"))
+        weights = F.softmax(scores, dim=-1)    # (B, T, T), rows sum to 1
+        return weights @ V                     # (B, T, d_head)
+```
+
+**Checklist for judging the tools' code**
+
+| Check | What a good answer does |
+|-------|-------------------------|
+| Runs without errors | Imports, shapes and function calls are valid |
+| Scaling | Divides scores by the square root of the head dimension |
+| Masking | Explains and applies a causal mask for decoder-only models |
+| Shape explanation | States (B, T, d_model) to (B, T, d_head) and (B, T, T) for scores |
+| Comments | Explains why each step is done, not just what it does |
+
+---
 
 ## 7. Key Findings
 
@@ -210,7 +362,29 @@ For ChatGPT, engineering usefulness should be judged by whether its answers prov
 6. ChatGPT's actual five responses are needed before making strong claims about which tool is more accurate, creative or useful.
 7. Neither tool should be treated as automatically correct; technical claims should be checked against reliable sources.
 
-## 8. Limitations
+### 7.1 Observations on Prompt Design
+
+- Prompts that list sub-points and a required format produce answers that are easier to score, because missing items are obvious.
+- Asking for "simple language with one example per concept" encourages analogies and reduces jargon-heavy answers.
+- A broad request such as Prompt 3 (six domains across four architectures) tends to produce summaries rather than full mappings; splitting it into two prompts would give more complete coverage.
+- Asking for a diagram description is a good test of whether a text-based tool can explain structure clearly without drawing it.
+
+---
+
+## 8. Responsible Use of Generative AI
+
+| Issue | Why it matters | Good practice |
+|-------|----------------|---------------|
+| Hallucination | Fluent text can be false | Verify facts and references against original sources |
+| Academic integrity | Copying AI output as your own work can break college rules | Use AI as a learning aid, write in your own words, follow your institution's policy |
+| Bias | Training data can contain stereotypes | Review outputs critically, especially for people-related content |
+| Privacy | Prompts may contain personal or confidential information | Do not paste sensitive data into public tools |
+| Healthcare and safety | Wrong answers can cause harm | Use qualified professionals for medical, legal and safety decisions |
+| Energy use | Training and serving large models consume electricity | Prefer smaller efficient models when they are enough |
+
+---
+
+## 9. Limitations
 
 - Only five prompts and two tools are included.
 - Claude's answers were generated in one chat session, so earlier context may have influenced later responses.
@@ -219,20 +393,52 @@ For ChatGPT, engineering usefulness should be judged by whether its answers prov
 - Scoring includes human judgement, and a second reviewer could improve consistency.
 - Model versions, settings, network conditions and server load can change results.
 
-## 9. Conclusion
+### 9.1 Suggestions for Future Work
+
+1. Collect the full ChatGPT and Claude transcripts for all five prompts and score them with the same rubric.
+2. Record stopwatch timings (time to first word and total time) for every prompt.
+3. Repeat each prompt two or three times to measure how much answers vary.
+4. Add Gemini and Perplexity to compare a search-grounded tool on citation quality.
+5. Add a verification column that lists each fact checked and the source used.
+
+---
+
+## 10. Conclusion
 
 The supplied Claude responses show clear explanations, useful examples, structured tables and a practical list of tools for building an LLM. They cover the main requested topics and include useful qualifications about uncertainty and responsible use. However, the comparison cannot conclusively establish whether Claude or ChatGPT is better because the actual ChatGPT responses and timing measurements are not included here.
 
 A fair final judgement requires scoring both sets of original responses using the same rubric. Generative AI is a useful learning and engineering aid, but important facts and outputs still require verification.
 
-## 10. References
+---
 
-1. Vaswani et al., “Attention Is All You Need,” 2017.
-2. Kaplan et al., “Scaling Laws for Neural Language Models,” 2020.
-3. Hoffmann et al., “Training Compute-Optimal Large Language Models” (Chinchilla), 2022.
-4. Goodfellow et al., “Generative Adversarial Nets,” 2014.
-5. Kingma and Welling, “Auto-Encoding Variational Bayes,” 2013.
-6. Ho et al., “Denoising Diffusion Probabilistic Models,” 2020.
+## 11. Glossary
 
-# Result
+| Term | Meaning |
+|------|---------|
+| Token | A small unit of text, such as a word or part of a word |
+| Embedding | A numeric vector representing the meaning of a token |
+| Attention | A mechanism that weighs how relevant each token is to another |
+| Latent space | A compressed internal representation learned by a model |
+| Pre-training | Initial large-scale training on general data |
+| Fine-tuning | Additional training on a narrower or instruction-based dataset |
+| RLHF | Reinforcement learning from human feedback, used to align model behaviour |
+| Hallucination | Fluent but false or unsupported output |
+| Scaling law | A pattern showing how performance changes with parameters, data and compute |
+| Inference | Using a trained model to generate output |
+
+---
+
+## 12. References
+
+1. Vaswani et al., "Attention Is All You Need," 2017.
+2. Kaplan et al., "Scaling Laws for Neural Language Models," 2020.
+3. Hoffmann et al., "Training Compute-Optimal Large Language Models" (Chinchilla), 2022.
+4. Goodfellow et al., "Generative Adversarial Nets," 2014.
+5. Kingma and Welling, "Auto-Encoding Variational Bayes," 2013.
+6. Ho et al., "Denoising Diffusion Probabilistic Models," 2020.
+
+---
+
+## Result
+
 Both ChatGPT and Claude explained all five Generative AI topics clearly and correctly, with tables and examples. They differed mainly in style and detail, not in overall quality. Facts like numbers and paper names should still be verified for hallucination. Neither was best on every criterion, so the choice depends on the task.
